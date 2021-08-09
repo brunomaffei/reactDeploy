@@ -12,6 +12,7 @@ describe("<Button/>", () => {
     const button = screen.getByRole("button", { name: /load more/i });
     expect(button).toBeInTheDocument();
   });
+
   it("should call function on button click", () => {
     const fn = jest.fn();
     render(<Button text="Load more" onClick={fn} />);
