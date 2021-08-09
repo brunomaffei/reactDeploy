@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import './styles.css';
+import "./styles.css";
 
-import { loadPosts } from '../../utils/load-posts';
-import { Posts } from '../../components/Posts';
-import { Button } from '../../components/Button';
-import { TextInput } from '../../components/TextInput';
+import { loadPosts } from "../../utils/load-posts";
+import { Posts } from "../../components/Posts";
+import { Button } from "../../components/Button";
+import { TextInput } from "../../components/TextInput";
 
 export class Home extends Component {
   state = {
@@ -13,7 +13,7 @@ export class Home extends Component {
     allPosts: [],
     page: 0,
     postsPerPage: 10,
-    searchValue: ''
+    searchValue: "",
   };
 
   async componentDidMount() {
@@ -28,18 +28,15 @@ export class Home extends Component {
       posts: postsAndPhotos.slice(page, postsPerPage),
       allPosts: postsAndPhotos,
     });
-  }
+  };
 
   handleChange = (e) => {
     const { value } = e.target;
     this.setState({ searchValue: value });
-  }
+  };
 
   loadMorePosts = () => {
-    const {
-      page, postsPerPage, allPosts, posts,
-    } = this.state;
-
+    const { page, postsPerPage, allPosts, posts } = this.state;
 
     const nextPage = page + postsPerPage;
     const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
@@ -47,26 +44,26 @@ export class Home extends Component {
     posts.push(...nextPosts);
 
     this.setState({
-      posts, page: nextPage
-    })
-  }
+      posts,
+      page: nextPage,
+    });
+  };
 
   render() {
     const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
 
     const noMorePosts = page + postsPerPage >= allPosts.length;
 
-    const filteredPosts = !!searchValue ?
-      allPosts.filter(post => {
-        return post.title.toLowerCase().includes(searchValue.toLowerCase());
-      }) : posts;
+    const filteredPosts = !searchValue
+      ? allPosts.filter((post) => {
+          return post.title.toLowerCase().includes(searchValue.toLowerCase());
+        })
+      : posts;
 
     return (
       <section className="container">
         <div className="search-container">
-          {!!searchValue && (
-            <h1>Search value: {searchValue}</h1>
-          )}
+          {!!searchValue && <h1>Search value: {searchValue}</h1>}
 
           <TextInput
             searchValue={searchValue}
@@ -74,18 +71,14 @@ export class Home extends Component {
           />
         </div>
 
-        {filteredPosts.length > 0 && (
-          <Posts posts={filteredPosts} />
-        )}
+        {filteredPosts.length > 0 && <Posts posts={filteredPosts} />}
 
-        {filteredPosts.length === 0 && (
-          <p>Não existem posts</p>
-        )}
+        {filteredPosts.length === 0 && <p>Não existem posts</p>}
 
         <div className="button-container">
           {!searchValue && (
             <Button
-              text='Load more Posts'
+              text="Load more Posts"
               onClick={this.loadMorePosts}
               disabled={noMorePosts}
             />
